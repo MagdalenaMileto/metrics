@@ -53,6 +53,20 @@ describe MetricsController, type: :controller do
                                        { :name => "wind" }
                                      ])
     end
+    it 'filters metric by name' do
+      Metric.create(name: 'temperature')
+      Metric.create(name: 'temperature_fahrenheit')
+      Metric.create(name: 'wind')
+
+      get :index, params: {name: 'temp'}
+
+      response_metrics = json_response[:metrics]
+
+      expect(response_metrics).to eq([
+                                       { :name => "temperature" },
+                                       { :name => "temperature_fahrenheit" },
+                                     ])
+    end
   end
 
   describe '#average' do

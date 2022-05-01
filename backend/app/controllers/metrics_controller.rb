@@ -1,7 +1,12 @@
 class MetricsController < ApplicationController
 
   def index
-    @metrics = Metric.all
+    name_like = params[:name]
+    if name_like.nil? || name_like.empty?
+      @metrics = Metric.all
+    else
+      @metrics = Metric.where( "name LIKE ?", "%#{name_like}%")
+    end
   end
 
   def average
