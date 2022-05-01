@@ -57,6 +57,5 @@ ActiveRecord::Schema[7.0].define(version: 2022_05_01_032750) do
     GROUP BY (date_trunc('day'::text, metric_values."timestamp")), metric_values.metric_id;
   SQL
   add_index "bucketed_metric_values", ["metric_id", "resolution", "time_bucket"], name: "bucketed_metric_values_idx_unique", unique: true
-  add_index "bucketed_metric_values", ["time_bucket", "resolution"], name: "index_bucketed_metric_values_on_time_bucket_and_resolution"
 
 end

@@ -7,6 +7,8 @@ Rails.application.routes.draw do
   scope "/api", defaults: { format: :json } do
     post '/metrics', to: 'metrics#register'
 
+    get '/metrics/average', to: 'metrics#average'
+
     resources :metrics, only: [:index] do
 
     end
