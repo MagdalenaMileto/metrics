@@ -31,7 +31,14 @@ rescue ActiveRecord::PendingMigrationError => e
   exit 1
 end
 RSpec.configure do |config|
-  config.include Rails.application.routes.url_helpers
+
+  config.before(:each) do
+    request.env["HTTP_ACCEPT"] = 'application/json' if defined? request
+  end
+
+  config.render_views = true
+
+  # config.include Rails.application.routes.url_helpers
 
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   config.fixture_path = "#{::Rails.root}/spec/fixtures"

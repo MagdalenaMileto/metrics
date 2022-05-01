@@ -4,7 +4,11 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   # root "articles#index"
   #
-  post '/metrics', to: 'metrics#register'
-  resources :matrics, only: [] do
+  scope "/api", defaults: { format: :json } do
+    post '/metrics', to: 'metrics#register'
+
+    resources :metrics, only: [:index] do
+
+    end
   end
 end

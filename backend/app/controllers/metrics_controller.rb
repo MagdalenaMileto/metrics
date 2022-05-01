@@ -1,6 +1,13 @@
 class MetricsController < ApplicationController
+  include ActionController::ImplicitRender
+  include ActionView::Layouts
+
+  def index
+    @metrics = Metric.all
+  end
+
   def register
-    metric = Metric.find_or_create_by!(name: params[:name])
+    metric = Metric.find_or_create_by!(name: metric_params[:name])
     MetricValue.create!(metric_value_params(metric))
   end
 

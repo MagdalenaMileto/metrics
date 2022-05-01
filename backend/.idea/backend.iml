@@ -52,6 +52,7 @@
     <orderEntry type="library" scope="PROVIDED" name="i18n (v1.10.0, RVM: ruby-3.0.0) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="io-console (v0.5.11, RVM: ruby-3.0.0) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="irb (v1.4.1, RVM: ruby-3.0.0) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="jbuilder (v2.11.5, RVM: ruby-3.0.0) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="loofah (v2.17.0, RVM: ruby-3.0.0) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="mail (v2.7.1, RVM: ruby-3.0.0) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="marcel (v1.0.2, RVM: ruby-3.0.0) [gem]" level="application" />
@@ -81,7 +82,6 @@
     <orderEntry type="library" scope="PROVIDED" name="rspec-mocks (v3.11.1, RVM: ruby-3.0.0) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="rspec-rails (v5.1.2, RVM: ruby-3.0.0) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="rspec-support (v3.11.0, RVM: ruby-3.0.0) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="sqlite3 (v1.4.2, RVM: ruby-3.0.0) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="strscan (v3.0.1, RVM: ruby-3.0.0) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="thor (v1.2.1, RVM: ruby-3.0.0) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="timeout (v0.2.0, RVM: ruby-3.0.0) [gem]" level="application" />
@@ -107,6 +107,7 @@
         <option value="controller" />
         <option value="generator" />
         <option value="integration_test" />
+        <option value="jbuilder" />
         <option value="job" />
         <option value="mailbox" />
         <option value="mailer" />
@@ -159,6 +160,7 @@
         <option value="controller" />
         <option value="generator" />
         <option value="integration_test" />
+        <option value="jbuilder" />
         <option value="job" />
         <option value="mailbox" />
         <option value="mailer" />
