@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_04_30_235453) do
+ActiveRecord::Schema[7.0].define(version: 2022_05_01_032750) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -30,4 +30,33 @@ ActiveRecord::Schema[7.0].define(version: 2022_04_30_235453) do
   end
 
   add_foreign_key "metric_values", "metrics"
+
+  create_view "bucketed_metric_values", materialized: true, sql_definition: <<-SQL
+      SELECT date_trunc('minute'::text, metric_values."timestamp") AS time_bucket,
+      metric_values.metric_id,
+      sum(metric_values.value) AS value_sum,
+      count(*) AS value_count,
+      'minute'::text AS resolution
+     FROM metric_values
+    GROUP BY (date_trunc('minute'::text, metric_values."timestamp")), metric_values.metric_id
+  UNION
+   SELECT date_trunc('hour'::text, metric_values."timestamp") AS time_bucket,
+      metric_values.metric_id,
+      sum(metric_values.value) AS value_sum,
+      count(*) AS value_count,
+      'hour'::text AS resolution
+     FROM metric_values
+    GROUP BY (date_trunc('hour'::text, metric_values."timestamp")), metric_values.metric_id
+  UNION
+   SELECT date_trunc('day'::text, metric_values."timestamp") AS time_bucket,
+      metric_values.metric_id,
+      sum(metric_values.value) AS value_sum,
+      count(*) AS value_count,
+      'day'::text AS resolution
+     FROM metric_values
+    GROUP BY (date_trunc('day'::text, metric_values."timestamp")), metric_values.metric_id;
+  SQL
+  add_index "bucketed_metric_values", ["metric_id", "resolution", "time_bucket"], name: "bucketed_metric_values_idx_unique", unique: true
+  add_index "bucketed_metric_values", ["time_bucket", "resolution"], name: "index_bucketed_metric_values_on_time_bucket_and_resolution"
+
 end
