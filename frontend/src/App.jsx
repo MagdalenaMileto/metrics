@@ -7,8 +7,7 @@ function App() {
     <div className="app">
       <SearchBar
         onMetricName={(name) => {
-          console.log(name);
-          fetchMetrics().then(console.log);
+          fetchMetrics(name).then(console.log);
         }}
       />
       <Metrics />
@@ -16,10 +15,14 @@ function App() {
   );
 }
 
-function fetchMetrics() {
-  return fetch("http://localhost:3000/api/metrics").then((response) =>
-    response.json()
-  );
+function fetchMetrics(name) {
+  const url = new URL("http://localhost:3000/api/metrics/");
+  return fetch("http://localhost:3000/api/metrics")
+    .then((response) => response.json())
+    .catch((error) => {
+      console.error(error);
+      throw error;
+    });
 }
 
 export default App;
