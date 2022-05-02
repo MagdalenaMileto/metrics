@@ -1,12 +1,10 @@
 import { useState } from "react";
 import { Modal } from "./Modal";
 
-const numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-
-export function Metrics() {
+export function Metrics({ metrics }) {
   const [openMetric, setOpenMetric] = useState(null);
 
-  const handleMetricClick = (n) => setOpenMetric(n);
+  const handleMetricClick = (metricName) => setOpenMetric(metricName);
   const onCloseModal = () => setOpenMetric(null);
 
   return (
@@ -16,13 +14,13 @@ export function Metrics() {
       )}
 
       <div className="metrics-grid">
-        {numbers.map((n) => (
+        {metrics.map(({ name }) => (
           <div
             className="metric"
-            key={`metric-${n}`}
-            onClick={() => handleMetricClick(n)}
+            key={`metric-${name}`}
+            onClick={() => handleMetricClick(name)}
           >
-            {n}
+            {name}
           </div>
         ))}
       </div>

@@ -20,6 +20,7 @@ export function SearchBar({ onMetricName }) {
 
   return (
     <input
+      className="search-bar"
       placeholder="type metric name..."
       value={inputValue}
       onChange={handleInputChange}

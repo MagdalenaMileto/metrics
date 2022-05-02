@@ -9,6 +9,16 @@
     color: white;
 }
 
+input {
+    margin: 100px 0;
+    width: 70%;
+    height: 3rem;
+    font-size: 3rem;
+    outline: none;
+    padding: 4px 30px;
+    border-radius: 10px;
+}
+
 .modal-overlay {
     background-color: rgba(112, 128, 144, 0.5);
     display: flex;
@@ -32,6 +42,7 @@
 
 .metrics-grid {
     display: flex;
+    justify-content: center;
     flex-wrap: wrap;
     gap: 50px;
 }
@@ -40,8 +51,12 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 150px;
-    height: 100px;
     border: 1px solid white;
+    padding: 30px;
     border-radius: 8px;
+    cursor: pointer;
+}
+
+.metric:hover {
+    background-color: rgb(162, 173, 187);
 }
