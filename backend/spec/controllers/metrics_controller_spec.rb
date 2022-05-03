@@ -99,10 +99,11 @@ describe MetricsController, type: :controller do
     end
 
     it 'returns bucketed metrics' do
-      MetricValue.create!(metric: metric, value: 10, timestamp: Time.zone.local(2022, 4, 30, 12, 10, 10))
-      MetricValue.create!(metric: metric, value: 5, timestamp: Time.zone.local(2022, 4, 30, 12, 5, 20))
+      metric_value_1 = MetricValue.create!(metric: metric, value: 10, timestamp: Time.zone.local(2022, 4, 30, 12, 10, 10))
+      metric_value_2 = MetricValue.create!(metric: metric, value: 5, timestamp: Time.zone.local(2022, 4, 30, 12, 5, 20))
 
-      BucketedMetricValue.refresh
+      post :register, params: { name: metric.name, value: metric_value_1.value, timestamp: metric_value_1.timestamp }
+      post :register, params: { name: metric.name, value: metric_value_2.value, timestamp: metric_value_2.timestamp }
 
       get :average, params: { name: metric.name }
 

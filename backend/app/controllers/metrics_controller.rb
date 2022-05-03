@@ -5,7 +5,7 @@ class MetricsController < ApplicationController
     if name_like.nil? || name_like.empty?
       @metrics = Metric.all
     else
-      @metrics = Metric.where( "name LIKE ?", "%#{name_like}%")
+      @metrics = Metric.where("name LIKE ?", "%#{name_like}%")
     end
   end
 
@@ -18,12 +18,11 @@ class MetricsController < ApplicationController
 
     @metric_name = metric_name
     @resolution = resolution
-    @bucketed_metric_values = BucketedMetricValue.average(metric_name, resolution)
+    @bucketed_metric_values = BucketedMetricAverage.average(metric_name, resolution)
   end
 
   def register
-    metric = Metric.find_or_create_by!(name: metric_params[:name])
-    MetricValue.create!(metric_value_params(metric))
+    CreateMetricValue.register(metric_params[:name], metric_params[:value], metric_params[:timestamp])
   end
 
   private
