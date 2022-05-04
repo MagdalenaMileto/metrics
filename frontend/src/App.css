@@ -6,10 +6,9 @@
     align-items: center;
     justify-content: flex-start;
     font-size: calc(10px + 2vmin);
-    color: white;
 }
 
-input {
+.search-bar {
     margin: 100px 0;
     width: 70%;
     height: 3rem;
@@ -17,46 +16,4 @@ input {
     outline: none;
     padding: 4px 30px;
     border-radius: 10px;
-}
-
-.modal-overlay {
-    background-color: rgba(112, 128, 144, 0.5);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 100%;
-    left: 0;
-    position: absolute;
-    top: 0;
-    width: 100%;
-}
-
-.metric-modal {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    height: 90%;
-    width: 90%;
-    background-color: #282c34;
-}
-
-.metrics-grid {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 50px;
-}
-
-.metric {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: 1px solid white;
-    padding: 30px;
-    border-radius: 8px;
-    cursor: pointer;
-}
-
-.metric:hover {
-    background-color: rgb(162, 173, 187);
 }

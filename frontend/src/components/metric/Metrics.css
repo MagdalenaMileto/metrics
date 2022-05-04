@@ -1,0 +1,21 @@
+.metric {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid white;
+    border-radius: 8px;
+    color: white;
+    padding: 30px;
+    cursor: pointer;
+}
+
+.metrics-grid {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 50px;
+}
+
+.metric:hover {
+    background-color: rgb(162, 173, 187);
+}

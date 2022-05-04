@@ -72,8 +72,20 @@ describe MetricsController, type: :controller do
   describe '#average' do
     let(:metric) { Metric.create!(name: 'temperature') }
 
-    it 'returns http status is not found when metrics does not exist' do
-      get :average, params: { name: 'temperature' }
+    it 'returns http status bad request when startDate is missing' do
+      get :average, params: { name: 'temperature', endDate: Time.now }
+
+      expect(response).to have_http_status(:bad_request)
+    end
+
+    it 'returns http status bad request when endDate is missing' do
+      get :average, params: { name: 'temperature', startDate: Time.now }
+
+      expect(response).to have_http_status(:bad_request)
+    end
+
+    it 'returns http status not found when metrics does not exist' do
+      get :average, params: { name: 'temperature', startDate: Time.now - 1, endDate: Time.now }
 
       expect(response).to have_http_status(:not_found)
     end
@@ -81,7 +93,7 @@ describe MetricsController, type: :controller do
     it 'returns http status is ok when metrics exists' do
       Metric.create!(name: 'temperature')
 
-      get :average, params: { name: 'temperature' }
+      get :average, params: { name: 'temperature', startDate: Time.now - 1, endDate: Time.now }
 
       expect(response).to have_http_status(:ok)
     end
@@ -99,15 +111,20 @@ describe MetricsController, type: :controller do
     end
 
     it 'returns bucketed metrics' do
-      metric_value_1 = MetricValue.create!(metric: metric, value: 10, timestamp: Time.zone.local(2022, 4, 30, 12, 10, 10))
-      metric_value_2 = MetricValue.create!(metric: metric, value: 5, timestamp: Time.zone.local(2022, 4, 30, 12, 5, 20))
+      start_date = Time.zone.local(2022, 4, 30, 12, 10, 10)
+      end_date = Time.zone.local(2022, 4, 30, 12, 15, 20)
+
+      metric_value_1 = MetricValue.create!(metric: metric, value: 10, timestamp: start_date)
+      metric_value_2 = MetricValue.create!(metric: metric, value: 5, timestamp: end_date)
 
       post :register, params: { name: metric.name, value: metric_value_1.value, timestamp: metric_value_1.timestamp }
       post :register, params: { name: metric.name, value: metric_value_2.value, timestamp: metric_value_2.timestamp }
 
-      get :average, params: { name: metric.name }
+      expected_time_bucket = Time.zone.local(2022, 4, 30, 12, 0, 0)
 
-      expect(json_response).to eq(name: 'temperature', resolution: 'hour', metricValues: [{ timeBucket: Time.zone.local(2022, 4, 30, 12, 0, 0).utc.iso8601, average: 7.5 }])
+      get :average, params: { name: metric.name, startDate: expected_time_bucket, endDate: end_date }
+
+      expect(json_response).to eq(name: 'temperature', resolution: 'hour', metricValues: [{ timeBucket: expected_time_bucket.utc.iso8601, average: 7.5 }])
     end
   end
 end

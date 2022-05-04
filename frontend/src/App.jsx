@@ -1,7 +1,8 @@
 import "./App.css";
-import { SearchBar } from "./SearchBar";
-import { Metrics } from "./Metrics";
+import { SearchBar } from "./components/SearchBar";
+import { Metrics } from "./components/metric/Metrics";
 import { useCallback, useEffect, useState } from "react";
+import { fetchMetrics } from "./api-calls";
 
 function App() {
   const [metrics, setMetrics] = useState([]);
@@ -20,18 +21,6 @@ function App() {
       <Metrics metrics={metrics} />
     </div>
   );
-}
-
-function fetchMetrics(name) {
-  const url = new URL("http://localhost:3000/api/metrics/");
-  name && url.searchParams.set("name", name);
-  return fetch(url.toString())
-    .then((response) => response.json())
-    .then(({ metrics }) => metrics)
-    .catch((error) => {
-      console.error(error);
-      throw error;
-    });
 }
 
 export default App;

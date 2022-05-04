@@ -22,6 +22,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_05_03_144802) do
     t.string "resolution"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["metric_id", "resolution", "time_bucket"], name: "bucketed_metric_avg_idx_unique", unique: true
     t.index ["metric_id"], name: "index_bucketed_metric_averages_on_metric_id"
   end
 
@@ -43,33 +44,4 @@ ActiveRecord::Schema[7.0].define(version: 2022_05_03_144802) do
 
   add_foreign_key "bucketed_metric_averages", "metrics"
   add_foreign_key "metric_values", "metrics"
-
-  create_view "bucketed_metric_values", materialized: true, sql_definition: <<-SQL
-      SELECT date_trunc('minute'::text, metric_values."timestamp") AS time_bucket,
-      metric_values.metric_id,
-      sum(metric_values.value) AS value_sum,
-      count(*) AS value_count,
-      'minute'::text AS resolution
-     FROM metric_values
-    GROUP BY (date_trunc('minute'::text, metric_values."timestamp")), metric_values.metric_id
-  UNION
-   SELECT date_trunc('hour'::text, metric_values."timestamp") AS time_bucket,
-      metric_values.metric_id,
-      sum(metric_values.value) AS value_sum,
-      count(*) AS value_count,
-      'hour'::text AS resolution
-     FROM metric_values
-    GROUP BY (date_trunc('hour'::text, metric_values."timestamp")), metric_values.metric_id
-  UNION
-   SELECT date_trunc('day'::text, metric_values."timestamp") AS time_bucket,
-      metric_values.metric_id,
-      sum(metric_values.value) AS value_sum,
-      count(*) AS value_count,
-      'day'::text AS resolution
-     FROM metric_values
-    GROUP BY (date_trunc('day'::text, metric_values."timestamp")), metric_values.metric_id;
-  SQL
-  add_index "bucketed_metric_values", ["metric_id", "resolution", "time_bucket"], name: "bucketed_metric_avg_idx_unique", unique: true
-  add_index "bucketed_metric_values", ["metric_id", "resolution", "time_bucket"], name: "bucketed_metric_values_idx_unique", unique: true
-
 end

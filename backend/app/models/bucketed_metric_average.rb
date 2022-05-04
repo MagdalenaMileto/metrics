@@ -8,9 +8,9 @@ class BucketedMetricAverage < ApplicationRecord
   validates :value_count, presence: true
   validates :resolution, inclusion: {in: resolutions.keys}
 
-  def self.average(name, resolution)
+  def self.average(name, resolution, start_date, end_date)
     metric = Metric.find_by!(name: name)
-    BucketedMetricAverage.where(metric: metric, resolution: resolution)
+    BucketedMetricAverage.where(metric: metric, resolution: resolution, time_bucket: start_date..end_date)
   end
 
   def add(metric_value)

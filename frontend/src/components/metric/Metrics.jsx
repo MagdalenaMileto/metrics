@@ -1,5 +1,6 @@
+import "./Metrics.css";
 import { useState } from "react";
-import { Modal } from "./Modal";
+import { MetricModal } from "./MetricModal";
 
 export function Metrics({ metrics }) {
   const [openMetric, setOpenMetric] = useState(null);
@@ -10,7 +11,7 @@ export function Metrics({ metrics }) {
   return (
     <>
       {openMetric && (
-        <Modal metricName={openMetric} closeModal={onCloseModal} />
+        <MetricModal metricName={openMetric} closeModal={onCloseModal} />
       )}
 
       <div className="metrics-grid">

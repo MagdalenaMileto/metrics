@@ -4,10 +4,7 @@ export function SearchBar({ onMetricName }) {
   const [inputValue, setInputValue] = useState("");
 
   useEffect(() => {
-    let timeoutId;
-    if (inputValue.length > 2) {
-      timeoutId = setTimeout(() => onMetricName(inputValue), 300);
-    }
+    let timeoutId = setTimeout(() => onMetricName(inputValue), 300);
 
     return () => {
       timeoutId && clearTimeout(timeoutId);

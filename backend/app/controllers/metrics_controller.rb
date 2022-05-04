@@ -11,14 +11,18 @@ class MetricsController < ApplicationController
 
   def average
     metric_name = params[:name]
+    start_date = params[:startDate]
+    end_date = params[:endDate]
     resolution = metric_resolution
 
     return render plain: 'resolution is invalid', status: :bad_request if resolution.nil?
     return render plain: 'name is missing', status: :bad_request if metric_name.nil?
+    return render plain: 'start date is missing', status: :bad_request if start_date.nil?
+    return render plain: 'end date is missing', status: :bad_request if end_date.nil?
 
     @metric_name = metric_name
     @resolution = resolution
-    @bucketed_metric_values = BucketedMetricAverage.average(metric_name, resolution)
+    @bucketed_metric_values = BucketedMetricAverage.average(metric_name, resolution, start_date, end_date)
   end
 
   def register
